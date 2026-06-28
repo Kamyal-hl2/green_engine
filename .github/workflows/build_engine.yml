@@ -33,12 +33,12 @@ jobs:
         run: |
           if [ -d "srceng-android-android-fixes" ]; then
             echo "Applying android fixes..."
-            cp -r srceng-android-android-fixes/. source-engine-android/ 2>/dev/null || true
+            cp -r srceng-android-android-fixes/. ./ 2>/dev/null || true
           fi
 
       - name: Build ARM32 (armeabi-v7a)
         run: |
-          cd source-engine-android
+          cd .
           mkdir -p build_arm32
           cd build_arm32
           cmake .. \
@@ -53,7 +53,7 @@ jobs:
 
       - name: Build ARM64 (arm64-v8a)
         run: |
-          cd source-engine-android
+          cd .
           mkdir -p build_arm64
           cd build_arm64
           cmake .. \
@@ -70,8 +70,8 @@ jobs:
         run: |
           mkdir -p output/armeabi-v7a
           mkdir -p output/arm64-v8a
-          find source-engine-android/build_arm32 -name "*.so" -exec cp {} output/armeabi-v7a/ \;
-          find source-engine-android/build_arm64 -name "*.so" -exec cp {} output/arm64-v8a/ \;
+          find ./build_arm32 -name "*.so" -exec cp {} output/armeabi-v7a/ \;
+          find ./build_arm64 -name "*.so" -exec cp {} output/arm64-v8a/ \;
           # Добавляем libhtml_chromium
           cp bin/armeabi-v7a/libhtml_chromium.so output/armeabi-v7a/ 2>/dev/null || true
           cp bin/arm64-v8a/libhtml_chromium.so output/arm64-v8a/ 2>/dev/null || true
